@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block content %}
+
+{% block javascript %}
+<script>
+    $(document).ready(function () {
+        $("#submitBtn").click(function () {
+            var fname = $("#fname").val();
+            var lname = $("#lname").val();
+            $.ajax({
+                url: '/sendajax',
+                data: {
+                    'fname': fname,
+                    'lname': lname
+                },
+                dataType: 'json',
+                success: function (data) {
+                    console.log(data.country)
+                }
+            });
+        });
+    });
+</script>
+{% endblock %}
+<div class="row">
+    <div class="col-md-6">
+        <div class="myform">
+            <form action="sendajax" method="post" id="myForm">
+                {% csrf_token %}
+                <label>First Name:</label>
+                <input type="text" id="fname" name="first-name"><br>
+                <label>Last Name:</label>
+                <input type="text" id="lname" name="last-name"><br>
+                <button type="button" id="submitBtn">Submit Name</button>
+            </form>
+        </div>
+    </div>
+</div>
+  
+{% endblock %}

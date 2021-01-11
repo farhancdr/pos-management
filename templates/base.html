@@ -1,0 +1,249 @@
+{% load static %}
+<!DOCTYPE html>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Pos</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+    />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="http://www.shieldui.com/shared/components/latest/css/light-bootstrap/all.min.css"
+    />
+    <link rel="stylesheet" href="{% static 'css/adminlte.min.css' %}" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/esm/popper.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/js/bootstrap.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.min.js"></script>
+    <script
+      type="text/javascript"
+      src="http://www.shieldui.com/shared/components/latest/js/shieldui-all.min.js"
+    ></script>
+
+<!-- <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+  </head>
+
+  <body>
+    <div class="page-wrapper chiller-theme toggled">
+      <a id="show-sidebar" class="btn btn-sm btn-dark" href="#">
+        <i class="fas fa-bars"></i>
+      </a>
+      <nav id="sidebar" class="sidebar-wrapper">
+        <div class="sidebar-content">
+          <div class="sidebar-brand">
+            <a href="#">Dashboard</a>
+            <div id="close-sidebar">
+              <i class="fas fa-times"></i>
+            </div>
+          </div>
+          <div class="sidebar-header">
+            <div class="user-pic">
+              <img
+                class="img-responsive img-rounded"
+                src="https://raw.githubusercontent.com/azouaoui-med/pro-sidebar-template/gh-pages/src/img/user.jpg"
+                alt="User picture"
+              />
+            </div>
+            <div class="user-info">
+              <span class="user-name">{{User}}</span>
+              <span class="user-role">Logged In</span>
+              <span class="user-status">
+                <i class="fa fa-circle"></i>
+                <span>Online</span>
+              </span>
+            </div>
+          </div>
+          <!-- sidebar-header  -->
+          <!-- <div class="sidebar-search">
+                    <div>
+                        <div class="input-group">
+                            <input type="text" class="form-control search-menu" placeholder="Search...">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
+          <!-- sidebar-search  -->
+          <div class="sidebar-menu">
+            <ul>
+              <li class="sidebar-dropdown">
+                <a href="{% url 'home' %}">
+                  <i class="fas fa-home"></i>
+                  <span>Home</span>
+                </a>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="fas fa-check-circle"></i>
+                  <span>Product</span>
+                  <span class="badge badge-pill badge-warning">New</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="{% url 'product_list' %}"
+                        ><i class="fas fa-list"></i>List Product</a
+                      >
+                    </li>
+                    <li>
+                      <a href="{% url 'add_product' %}"
+                        ><i class="fas fa-list"></i>Add Product</a
+                      >
+                    </li>
+                    <li>
+                      {% comment %} <a href={% url 'importProduct' %}><i class="fas fa-list"></i>Import Product</a> {% endcomment %}
+                    </li>
+                    <li>
+                      <a href="#"><i class="fas fa-list"></i>Stock Counts</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="fa fa-shopping-cart"></i>
+                  <span>Add Items</span>
+                  <span class="badge badge-pill badge-danger">3</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="{% url 'add_product' %}"
+                        ><i class="fas fa-list"></i>Add Products</a
+                      >
+                    </li>
+                    <li>
+                      <a href="{% url 'add_brand' %}"
+                        ><i class="fas fa-list"></i>Add Brands</a
+                      >
+                    </li>
+                    <li>
+                      <a href="{% url 'add_catagory' %}"
+                        ><i class="fas fa-list"></i>Add Catagory</a
+                      >
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="far fa-gem"></i>
+                  <span>Purchase</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="{% url 'purchaseProduct' %}"><i class="fas fa-list"></i>New Purchase</a>
+                    </li>
+                    <li>
+                      <a href="{% url 'productCountList' %}"><i class="fas fa-list"></i>Purchase List</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="fa fa-chart-line"></i>
+                  <span>Sales</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="{% url 'show_product' %}"><i class="fas fa-list"></i>New Sales</a>
+                    </li>
+                    <li>
+                      <a href="{% url 'sales_list' %}"><i class="fas fa-list"></i>Sales List</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="sidebar-dropdown">
+                <a href="#">
+                  <i class="fa fa-globe"></i>
+                  <span>Report</span>
+                </a>
+                <div class="sidebar-submenu">
+                  <ul>
+                    <li>
+                      <a href="#"><i class="fas fa-list"></i>Daily</a>
+                    </li>
+                    <li>
+                      <a href="#"><i class="fas fa-list"></i>Monthly</a>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li class="header-menu">
+                <span>Extra</span>
+              </li>
+              <li>
+                <a href="{% url 'customer_list' %} ">
+                  <i class="fas fa-user-secret"></i>
+                  <span>Customers</span>
+                </a>
+              </li>
+              <li>
+                <a href="#">
+                  <i class="fas fa-user-cog"></i>
+                  <span>Suppliers</span>
+                </a>
+              </li>
+            </ul>
+          </div>
+          <!-- sidebar-menu  -->
+        </div>
+        <!-- sidebar-content  -->
+        <div class="sidebar-footer">
+          <a href="#">
+            <i class="fa fa-bell"></i>
+            <span class="badge badge-pill badge-warning notification">3</span>
+          </a>
+          <a href="{% url 'show_product' %} ">
+            <i class="fa fa-envelope"></i>
+            <span class="badge badge-pill badge-success notification">7</span>
+          </a>
+          <a href="#">
+            <i class="fa fa-cog"></i>
+            <span class="badge-sonar"></span>
+          </a>
+          <a href="{% url 'logout'%}">
+            <i class="fa fa-power-off"></i>
+          </a>
+        </div>
+      </nav>
+     
+      <main class="page-content">
+        <div class="container-fluid">
+          {% block content %} {% endblock %}
+        </div>
+      </main>
+      <!-- page-content" -->
+    </div>
+    <!-- page-wrapper -->
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/mychart.js' %}"></script>
+    </body>
+</html>

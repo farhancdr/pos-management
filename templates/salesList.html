@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Product Name</th>
+      <th scope="col">Customer Name</th>
+      <th scope="col">Product Unit</th>
+      <th scope="col">Product Price</th>
+      <th scope="col">Sales Time</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for sale in Sales %}
+    <tr>
+      <th scope="row">{{sale.sproductName}}</th>
+      <td>{{sale.scustomerName}}</td>
+      <td>{{sale.sproductUnit}}</td>
+      <td>{{sale.sproductPrice}}</td>
+      <td>{{sale.salesTime}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

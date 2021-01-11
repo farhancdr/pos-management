@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block content %}
+
+
+<div class="container">  
+    <form id="contact" action="add_orders" method="post">
+        {% csrf_token %}
+      <h3>Add orders</h3>
+      <fieldset>
+        <input name='product_name' placeholder="Product name" type="text" tabindex="1" required autofocus>
+      </fieldset>
+      <fieldset>
+        <input name='product_price'placeholder="Enter Product Price" type="number" tabindex="2" required>
+      </fieldset>
+      <fieldset>
+        <input name='product_unit'placeholder="Product Unit" type="number" tabindex="3" required>
+      </fieldset>
+      <fieldset>
+        <select name = 'product_cats'>
+         {% for brand in ProductCats %}
+          <option value="{{brand.productCatagory}}">{{brand.productCatagory}}</option>
+          {% endfor %}
+        </select>
+      </fieldset>
+      <fieldset>
+        <button name="submit" type="submit" id="contact-submit">Submit</button>
+      </fieldset>
+    </form>
+   
+    
+  </div>
+
+
+
+
+{% endblock %}

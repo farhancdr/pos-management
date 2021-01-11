@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+        <th scope="col">Customers Name</th>
+        <th scope="col">Customers Phone</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for customer in Customers %}
+    <tr>
+      <th scope="row">{{customer.customerName}}</th>
+      <td>{{customer.customerPhone}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

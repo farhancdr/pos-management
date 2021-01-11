@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Product Name</th>
+      <th scope="col">Supplier Name</th>
+      <th scope="col">Product Unit</th>
+      <th scope="col">Product Price</th>
+      <th scope="col">Date My</th>
+      <th scope="col">Update</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for product in Products %}
+    <tr>
+      <th scope="row">{{product.sproductName}}</th>
+      <td>{{product.supplierName}}</td>
+      <td>{{product.sproductUnit}}</td>
+      <td>{{product.sproductPrice}}</td>
+      <td>{{product.created_at}}</td>
+      <td>
+        <a class="btn btn-warning" href="{% url 'updateproductCountList' product.id %}">Update</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}

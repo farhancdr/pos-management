@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+
+<div class="row">
+    <div class="col myfilter">
+      <div class="card card-body">
+        <form method='GET'>
+        {{Filters.form}}
+        <button class ='btn btn-primary' type='submit'>Search</button>
+        </form>
+      </div>
+    </div>
+</div>
+<table class="table table-bordered table-hover">
+  <thead>
+    <tr>
+      <th scope="col">Product Name</th>
+      <th scope="col">Product Brand</th>
+      <th scope="col">Product Catagory</th>
+      <th scope="col">Product Price</th>
+      <th scope="col">Update/Delete</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for product in Products %}
+    <tr>
+      <th scope="row">{{product.productName}}</th>
+      <td>{{product.productBrand}}</td>
+      <td>{{product.productCatagory}}</td>
+      <td>{{product.productCost}}</td>
+      <td>
+        <a class="btn btn-warning" href="{% url 'update_product' product.id %}">Update</a>
+        <a class="btn btn-danger" href="{% url 'delete_product' product.id %}">Delete</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+{% endblock %}
