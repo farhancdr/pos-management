@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
-from .models import Products,Brands,Catagory,Sales,Purchase
+from .models import Products,Brands,Catagory,Sales,Purchase,Customer,Supplier
 
 
 
@@ -60,4 +60,20 @@ class SalesForm(forms.ModelForm):
             'sproductUnit',
             'sproductPrice',
             'scustomerName'
+        ]
+
+
+class CustomerForm(forms.ModelForm):
+    class Meta:
+        model = Customer
+        fields = [
+            'customerName',
+            'customerPhone'
+        ]
+
+class SupplierForm(forms.ModelForm):
+    class Meta:
+        model = Supplier
+        fields = [
+            'supplierName'
         ]

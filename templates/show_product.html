@@ -133,6 +133,7 @@
           + "<td>" + cartArray[i].total + "</td>"
           + "</tr>";
       }
+      
       $('.show-cart').html(output);
       $('.total-cart').html(shoppingCart.totalCart());
       $('.total-count').html(shoppingCart.totalCount());
@@ -164,8 +165,18 @@
     });
 
     displayCart();
+    var customerbox = "<div id='customersh2'><h4>Sale to:</h4></div>"+
+              '<div class="form-group">'
+                    +'<select class="form-control" id="makex"'+ "name="+"'selected_customer'>"
+                        +"{% for customer in customers %}"
+                            +"<option value='{{customer.id}}'>{{ customer.customerName }}</option>"
+                        +"{% endfor %}"
+                    +"</select>"
+                +"</div>";
+      $('.modal-body').append(customerbox);
     $( "#orderNow" ).click(function() {
       var totalCost = $("#totalCart").html();
+      var customerNamet = $( "#makex option:selected").text();
       var d= new Date();
       var tdate = d.getDate();
       var tmonth = d.getMonth();
@@ -177,6 +188,7 @@
           'tdate': tdate,
           'tmonth': tmonth,
           'tyear': tyear,
+          'customerNamet' : customerNamet
           
         },
         dataType: 'json',

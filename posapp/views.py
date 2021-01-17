@@ -12,7 +12,7 @@ from django.contrib.auth import login, authenticate,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from .models import Sales,Products,Brands,Catagory,Salescount,Purchase,Customer,NewSales
-from .forms import ProductsForm, BrandsForm, CatagoryForm, SignUpForm, PurchaseProductsForm, SalesForm
+from .forms import ProductsForm, BrandsForm, CatagoryForm, SignUpForm, PurchaseProductsForm, SalesForm, CustomerForm, SupplierForm
 from .filters import OrderFilter
 
 def signup_view(request):
@@ -54,12 +54,12 @@ def home(request):
     countme = json_serializer.serialize(Salescount.objects.all())
     return render(request,'home.html',{'User':current_user, 'products':products,'countme':countme})
 
-#@login_required(login_url='login')
+@login_required(login_url='login')
 def add_product(request):
     form = ProductsForm(request.POST or None)
     if form.is_valid():
         form.save()
-        return redirect('/') 
+        return redirect('/add_product') 
     context = {
         'form':form
     }
@@ -124,13 +124,28 @@ def updateproductCountList(request,pk):
 def productCountList(request):
     my_product_list = Purchase.objects.all()
     return render(request,'productCountList.html',{'Products':my_product_list})
-
+@login_required(login_url='login') 
 def sales_list(request):
     my_sales_list = Sales.objects.all()
     return render(request,'salesList.html',{'Sales':my_sales_list})
 
 
-
+@login_required(login_url='login') 
+def new_sales_list(request):
+    salesByDate = NewSales.objects.filter(tmonth=0)
+    salesByMonth = NewSales.objects.filter(tmonth=0)
+    salesByYear = NewSales.objects.filter(tyear=0)
+    totalsalebyDate = 0
+    totalsalebyMonth = 0
+    totalsalebyYear = 0
+    for i in salesByDate:
+        totalsalebyDate+=i.totalCost
+    for i in salesByMonth:
+        totalsalebyMonth+=i.totalCost
+    for i in salesByYear:
+        totalsalebyYear+=i.totalCost
+    print(totalsalebyMonth)
+    return render(request,'blank.html')
 
 
 
@@ -197,6 +212,28 @@ def add_sale(request):
 
 
 
+@login_required(login_url='login')
+def add_customer(request):
+    form = CustomerForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('add_customer')
+    context ={
+        'form':form
+    }
+    return render(request,'add_form.html',context)
+
+
+@login_required(login_url='login')
+def add_supplier(request):
+    form = SupplierForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        return redirect('add_supplier')
+    context ={
+        'form':form
+    }
+    return render(request,'add_form.html',context)
 
 
 @login_required(login_url='login')    
@@ -212,8 +249,10 @@ def customer_list(request):
 @login_required(login_url='login')
 def show_product(request):
     my_product_list = Products.objects.all()
+    my_customer_list = Customer.objects.all()
     context = {
         'products' : my_product_list,
+        'customers' : my_customer_list
     }
     return render(request,'show_product.html',context)
 
@@ -229,9 +268,11 @@ def sendajax(request):
     }
     return JsonResponse(data)
 
-
+@login_required(login_url='login') 
 def sendOrder(request):
     totalCost = request.GET.get('totalCost', None)
+    customerName = request.GET.get('customerNamet', None)
+    print(customerName)
     tdate = request.GET.get('tdate', None)
     tmonth = request.GET.get('tmonth', None)
     tyear = request.GET.get('tyear', None)
@@ -241,14 +282,14 @@ def sendOrder(request):
         "Strings" : "Success"
     }
     return JsonResponse(data)
-
+@login_required(login_url='login') 
 def getDate(request):
     sales_list
-    date:{
+    datex = {
         "hello" : "hdke"
     }
-    return JsonResponse(date)
-
+    return JsonResponse(datex)
+@login_required(login_url='login') 
 def getchartData(request):
     context = {
         "j": 2105,
