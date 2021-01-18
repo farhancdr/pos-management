@@ -782,3 +782,8 @@ html, body {
 .modal-body #customersh2 {
   margin-top: 20px;
 }
+
+.inner, .inner p, .inner p span {
+  font-size: 20px;
+  color: white;
+}
