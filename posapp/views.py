@@ -14,7 +14,9 @@ from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from .models import Sales,Products,Salescount,Purchase,Customer,NewSales
 from .forms import ProductsForm, BrandsForm, CatagoryForm, SignUpForm, PurchaseProductsForm, SalesForm, CustomerForm, SupplierForm
 from .filters import OrderFilter
+from .decorators import unauthenticated_user
 
+@unauthenticated_user
 def signup_view(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -29,7 +31,7 @@ def signup_view(request):
         form = SignUpForm()
     return render(request,'userform.html',{'form':form,'type':"Signup"})
 
-
+@unauthenticated_user
 def login_view(request):
     if request.method == 'POST':
         form = AuthenticationForm(data=request.POST)
