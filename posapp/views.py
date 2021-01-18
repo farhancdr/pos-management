@@ -14,7 +14,7 @@ from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
 from .models import Sales,Products,Salescount,Purchase,Customer,NewSales
 from .forms import ProductsForm, BrandsForm, CatagoryForm, SignUpForm, PurchaseProductsForm, SalesForm, CustomerForm, SupplierForm
 from .filters import OrderFilter
-from .decorators import unauthenticated_user
+from .decorators import unauthenticated_user, allowed_users
 
 @unauthenticated_user
 def signup_view(request):
@@ -57,6 +57,7 @@ def home(request):
     return render(request,'home.html',{'User':current_user, 'products':products,'countme':countme})
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def add_product(request):
     form = ProductsForm(request.POST or None)
     if form.is_valid():
@@ -69,6 +70,7 @@ def add_product(request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def update_product(request,pk):
     product = Products.objects.get(id=pk)
     form = ProductsForm(instance= product)
@@ -83,6 +85,7 @@ def update_product(request,pk):
     return render(request,'add_form.html',context)
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def delete_product(request,pk):
     product = Products.objects.get(id=pk)
     if request.method == 'POST':
@@ -95,6 +98,7 @@ def delete_product(request,pk):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def purchaseProduct(request):
     form = PurchaseProductsForm(request.POST or None)
     if form.is_valid():
@@ -108,6 +112,7 @@ def purchaseProduct(request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def updateproductCountList(request,pk):
     product = Purchase.objects.get(id=pk)
     form = PurchaseProductsForm(instance= product)
@@ -122,7 +127,8 @@ def updateproductCountList(request,pk):
     return render(request,'purchaseForm.html',context)
 
 
-@login_required(login_url='login')    
+@login_required(login_url='login')   
+@allowed_users(allowed_roles=['admin']) 
 def productCountList(request):
     my_product_list = Purchase.objects.all()
     return render(request,'productCountList.html',{'Products':my_product_list})
@@ -164,6 +170,7 @@ def product_list(request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def add_catagory(request):
     form = CatagoryForm(request.POST or None)
     if form.is_valid():
@@ -176,6 +183,7 @@ def add_catagory(request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def add_brand(request):
     form = BrandsForm(request.POST or None)
     if form.is_valid():
@@ -190,6 +198,7 @@ def add_brand(request):
 
 
 @login_required(login_url='login')
+
 def add_sale(request):
     my_product_list = Products.objects.all()
     customer = Customer.objects.all()
@@ -215,6 +224,7 @@ def add_sale(request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def add_customer(request):
     form = CustomerForm(request.POST or None)
     if form.is_valid():
@@ -227,6 +237,7 @@ def add_customer(request):
 
 
 @login_required(login_url='login')
+@allowed_users(allowed_roles=['admin'])
 def add_supplier(request):
     form = SupplierForm(request.POST or None)
     if form.is_valid():
