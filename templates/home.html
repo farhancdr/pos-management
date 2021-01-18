@@ -12,7 +12,7 @@
         <div class="small-box bg-aqua">
           <div class="inner">
             <h4>Monthly Sale</h4>
-            <p>৳২০০ </p>
+            <p>৳<span id="monthlySale"></span></p>
           </div>
         </div>
       </div>
@@ -75,29 +75,23 @@
 
   </div>
 
-
-
-
   <script type="text/javascript">
-    //http://127.0.0.1:8000/getchartData
-    let mydata;
     const datat = async () => {
       const got = await fetch('http://127.0.0.1:8000/getchartData');
-      let ajd = await got.json();
-      const Values = Object.values(ajd);
-      return Values;
-      
+      let converted = await got.json();
+      return Object.values(converted);
     }
     var hh = datat();
     hh.then(data =>{
+      $("#monthlySale").html(data[0]);
       myfunc(data);
     })
     function myfunc(datax){
-      var ctx = document.getElementById('myChart').getContext('2d');
+    var ctx = document.getElementById('myChart').getContext('2d');
     var myChart = new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange','Magenta'],
+        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November','December'],
         datasets: [{
             label: 'Monthly Sales',
             data: datax,

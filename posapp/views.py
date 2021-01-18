@@ -11,7 +11,7 @@ from django.shortcuts import render,redirect
 from django.contrib.auth import login, authenticate,logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
-from .models import Sales,Products,Brands,Catagory,Salescount,Purchase,Customer,NewSales
+from .models import Sales,Products,Salescount,Purchase,Customer,NewSales
 from .forms import ProductsForm, BrandsForm, CatagoryForm, SignUpForm, PurchaseProductsForm, SalesForm, CustomerForm, SupplierForm
 from .filters import OrderFilter
 
@@ -272,12 +272,15 @@ def sendajax(request):
 def sendOrder(request):
     totalCost = request.GET.get('totalCost', None)
     customerName = request.GET.get('customerNamet', None)
-    print(customerName)
     tdate = request.GET.get('tdate', None)
     tmonth = request.GET.get('tmonth', None)
     tyear = request.GET.get('tyear', None)
-    new_sales_info = NewSales(totalCost = totalCost, tdate = tdate, tmonth = tmonth, tyear = tyear)
-    new_sales_info.save()
+    ntmonth = NewSales.objects.get(tmonth=tmonth);
+    ntmonth.totalCost+=int(totalCost)
+    ntmonth.tdate = tdate
+    ntmonth.tyear = tyear
+    ntmonth.save()
+    
     data = {
         "Strings" : "Success"
     }
@@ -291,19 +294,9 @@ def getDate(request):
     return JsonResponse(datex)
 @login_required(login_url='login') 
 def getchartData(request):
-    context = {
-        "j": 2105,
-        "aj": 1234,
-        "bj": 5412,
-        "cj": 6325,
-        "dj": 7458,
-        "ej": 9856,
-        "fj": 2514,
-        "gj": 6253,
-        "hj": 2013,
-        "ij": 5012,
-        "jj": 3621,
-        "kj": 4128
-        
-    }
-    return JsonResponse(context)
+    months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November','December']
+    dx = {}
+    monthlysale = NewSales.objects.order_by('tmonth')
+    for x in monthlysale:
+        dx[x.tmonth] = x.totalCost
+    return JsonResponse(dx)
